@@ -24,7 +24,10 @@ public class NoteController {
     public String main(Model model) {
         //1. DB에서 데이터 꺼내오기
         List<Note> noteList = noteRepository.findAll();
-
+        if(noteList.isEmpty()) {
+            saveDefault();
+            return "redirect:/";
+        }
         //2. 꺼내온 데이터를 템플릿으로 보내기
         model.addAttribute("noteList", noteList);
         model.addAttribute("targetNote", noteList.get(0));
@@ -34,13 +37,8 @@ public class NoteController {
 
     @PostMapping("/write")
     public String write() {
-        Note note = new Note();
-        note.setTitle("new title..");
-        note.setContent("");
-        note.setCreateDate(LocalDateTime.now());
 
-        noteRepository.save(note);
-
+        saveDefault();
         return "redirect:/";
     }
 
@@ -60,5 +58,13 @@ public class NoteController {
 
         noteRepository.save(note);
         return "redirect:/detail/" + id;
+    }
+    private Note saveDefault() {
+        Note note = new Note();
+        note.setTitle("new title..");
+        note.setContent("");
+        note.setCreateDate(LocalDateTime.now());
+
+        return noteRepository.save(note);
     }
 }
