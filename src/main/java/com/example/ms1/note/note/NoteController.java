@@ -28,10 +28,11 @@ public class NoteController {
         Note note = noteRepository.findById(id).get();
         List<Notebook> notebookList = notebookRepository.findAll();
         Notebook targetNotebook = notebookRepository.findById(notebookId).get();
+        List<Note> noteList = noteRepository.findByNotebook(targetNotebook);
         model.addAttribute("notebookList", notebookList);
         model.addAttribute("targetNotebook", targetNotebook);
         model.addAttribute("targetNote", note);
-        model.addAttribute("noteList", noteRepository.findAll());
+        model.addAttribute("noteList", noteList);
         return "main";
     }
     @PostMapping("/{id}/update")
