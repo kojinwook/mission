@@ -21,4 +21,5 @@ public class Note {
 
     @ManyToOne(fetch = FetchType.LAZY)
     private Notebook notebook;
+
 }
